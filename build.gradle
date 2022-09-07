@@ -11,6 +11,9 @@ ext {
     kotlin_coroutine_version = '1.6.4'
     annotation_version = '1.4.0'
 
+    // Android
+    corektx_version = '1.8.0'
+
     // Test
     junit_version = '4.13.2'
     test_runner_version = '1.4.0'
