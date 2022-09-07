@@ -1,0 +1,95 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'org.jetbrains.dokka'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+group = "com.frybits.preferences.toobox"
+
+android {
+    compileSdkVersion compileSdk_version
+
+    defaultConfig {
+        minSdkVersion minSdk_version
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments clearPackageData: 'true'
+
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+
+    namespace 'com.frybits.preferences.toolbox.core'
+}
+
+dokkaHtml {
+    moduleName.set('Preferences Toolbox')
+    dokkaSourceSets {
+        named("main") {
+            noAndroidSdkLink.set(false)
+            outputDirectory.set(file("$buildDir/dokka"))
+            reportUndocumented.set(true)
+            platform.set(org.jetbrains.dokka.Platform.jvm)
+            sourceRoots.setFrom(file("src/main"))
+            jdkVersion.set(11)
+
+            perPackageOption {
+                matchingRegex('kotlin($|\\.).*')
+                skipDeprecated.set(false)
+                eportUndocumented.set(true)
+                includeNonPublic.set(false)
+            }
+        }
+    }
+}
+
+// build a jar with source files
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    archiveClassifier = 'sources'
+}
+
+task javadocJar(type: Jar, dependsOn: dokkaHtml) {
+    from "$buildDir/dokka"
+    archiveClassifier = 'javadoc'
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+dependencies {
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "androidx.annotation:annotation:$annotation_version"
+
+    // Test
+    androidTestImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$test_ext_version"
+    androidTestImplementation "androidx.test:rules:$test_rules_version"
+    androidTestImplementation "androidx.test:runner:$test_runner_version"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutine_version"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutine_version"
+    androidTestUtil "androidx.test:orchestrator:$test_orchestrator_version"
+}
