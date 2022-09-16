@@ -15,13 +15,11 @@ interface Preference<T> {
         fun serialize(value: T): String
     }
 
-    interface Adapter<T> {
-        fun get(key: String, sharedPreference: SharedPreferences, defaultValue: T): T
+    val sharedPreferences: SharedPreferences
 
-        fun set(key: String, value: T, editor: SharedPreferences.Editor)
-    }
+    val adapter: Adapter<T>
 
-    val key: String
+    val key: String?
 
     val defaultValue: T
 
@@ -33,43 +31,43 @@ interface Preference<T> {
 }
 
 @Suppress("FunctionName")
-internal fun <T> Preference(
+fun <T> Preference(
     preferences: SharedPreferences,
-    key: String,
+    key: String?,
     defaultValue: T,
-    adapter: Preference.Adapter<T>
+    adapter: Adapter<T>
 ): Preference<T> = PreferenceImpl(
-    sharedPreference = preferences,
+    sharedPreferences = preferences,
     _key = key,
     _defaultValue = defaultValue,
     adapter = adapter
 )
 
 private class PreferenceImpl<T>(
-    private val sharedPreference: SharedPreferences,
-    private val _key: String,
+    override val sharedPreferences: SharedPreferences,
+    private val _key: String?,
     private val _defaultValue: T,
-    private val adapter: Preference.Adapter<T>
+    override val adapter: Adapter<T>
 ): Preference<T> {
 
-    override val key: String
+    override val key: String?
         get() = _key
 
     override val defaultValue: T
         get() = _defaultValue
 
     override var value: T
-        get() = adapter.get(_key, sharedPreference, _defaultValue)
+        get() = adapter.get(_key, sharedPreferences, _defaultValue)
         set(value) {
-            sharedPreference.edit {
+            sharedPreferences.edit {
                 adapter.set(_key, value, this)
             }
         }
 
     override val isSet: Boolean
-        get() = sharedPreference.contains(_key)
+        get() = sharedPreferences.contains(_key)
 
     override fun delete() {
-        sharedPreference.edit { remove(_key) }
+        sharedPreferences.edit { remove(_key) }
     }
 }

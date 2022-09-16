@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Preferences Toolbox"
-include ':app', ':core'
+include ':app', ':core', ':coroutines'
