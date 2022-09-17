@@ -1,7 +1,6 @@
 package com.frybits.preferences.toolbox.core
 
 import android.content.SharedPreferences
-import kotlin.reflect.KClass
 
 interface Adapter<T> {
     fun get(key: String?, sharedPreference: SharedPreferences, defaultValue: T): T
@@ -31,12 +30,12 @@ class ConverterAdapter<T>(private val converter: Preference.Converter<T>): Adapt
     }
 }
 
-class EnumAdapter<T : Enum<T>>(private val clazz: KClass<T>): Adapter<T> {
+class EnumAdapter<T : Enum<T>>(private val clazz: Class<T>): Adapter<T> {
 
     override fun get(key: String?, sharedPreference: SharedPreferences, defaultValue: T): T {
         val value = sharedPreference.getString(key, null) ?: return defaultValue
         return try {
-            java.lang.Enum.valueOf(clazz.java, value)
+            java.lang.Enum.valueOf(clazz, value)
         } catch (e: IllegalArgumentException) {
             defaultValue
         }

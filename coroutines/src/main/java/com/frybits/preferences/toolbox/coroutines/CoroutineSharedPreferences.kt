@@ -37,11 +37,18 @@ class CoroutineSharedPreferences internal constructor(
         awaitClose { sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener) }
     }.shareIn(scope, SharingStarted.WhileSubscribed())
 
+    @JvmOverloads
     public override fun getBoolean(key: String?, defaultValue: Boolean): CoroutinePreference<Boolean> {
         return Preference(sharedPreferences, key, defaultValue, BooleanAdapter).asCoroutinePreference(keyChanges)
     }
 
-    override fun <T : Enum<T>> getEnum(key: String?, defaultValue: T, clazz: KClass<T>): Preference<T> {
+    inline fun <reified T: Enum<T>> getEnum(key: String?, defaultValue: T): Preference<T> {
+        return getEnum(key, defaultValue, T::class.java)
+    }
+
+    public override fun <T : Enum<T>> getEnum(key: String?, defaultValue: T, clazz: Class<T>): Preference<T> {
         return Preference(sharedPreferences, key, defaultValue, EnumAdapter(clazz)).asCoroutinePreference(keyChanges)
     }
+
+
 }
