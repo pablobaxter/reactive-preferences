@@ -25,8 +25,14 @@ private class CoroutinePreferenceImpl<T>(
 ): CoroutinePreference<T>, CorePreference<T> by preference {
 
     override fun asFlow(): Flow<T> {
-        return keysChanged.filter { it == key }
-            .map { value }.onStart { emit(value) }
+        return keysChanged.filter { it == key || it == null }
+            .map { key ->
+                return@map if (key != null || isSet) {
+                    value
+                } else {
+                    defaultValue
+                }
+            }.onStart { emit(value) }
     }
 
     override suspend fun commitValue(value: T): Boolean {
