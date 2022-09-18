@@ -20,14 +20,14 @@ private class Rx2PreferenceImpl<T>(
 
     @Deprecated("Use `this.value = value` instead.", level = DeprecationLevel.ERROR)
     override fun set(value: T) {
-        requireNotNull(value) { "Rx2SharedPreferences does not allow null values." }
+        requireNotNull(value) { throw NullPointerException("value == null") }
         this.value = value
     }
 
     override var value: T
         get() = preference.value
         set(value) {
-            requireNotNull(value) { "Rx2SharedPreferences does not allow null values." }
+            requireNotNull(value) { throw NullPointerException("value == null") }
             preference.value = value
         }
 

@@ -3,7 +3,6 @@ package com.frybits.preferences.toolbox.rx2
 import android.content.SharedPreferences
 import androidx.annotation.VisibleForTesting
 import com.frybits.preferences.toolbox.core.BooleanAdapter
-import com.frybits.preferences.toolbox.core.ConverterAdapter
 import com.frybits.preferences.toolbox.core.CorePreference
 import com.frybits.preferences.toolbox.core.CoreSharedPreferences
 import com.frybits.preferences.toolbox.core.EnumAdapter
@@ -81,8 +80,8 @@ open class Rx2SharedPreferences @VisibleForTesting internal constructor(
     }
 
     public override fun <T> getObject(key: String?, defaultValue: T, converter: CorePreference.Converter<T>): Rx2Preference<T> {
-        requireNotNull(defaultValue) { "Rx2SharedPreferences does not allow null values." }
-        return CorePreference(sharedPreferences, key, defaultValue, ConverterAdapter(converter)).asRx2Preference(keyChanges)
+        requireNotNull(defaultValue) { throw NullPointerException("value == null") }
+        return CorePreference(sharedPreferences, key, defaultValue, Rx2ConverterAdapter(converter)).asRx2Preference(keyChanges)
     }
 
     fun getString(key: String?): Rx2Preference<String?> {
@@ -90,7 +89,7 @@ open class Rx2SharedPreferences @VisibleForTesting internal constructor(
     }
 
     public override fun getString(key: String?, defaultValue: String?): Rx2Preference<String?> {
-        requireNotNull(defaultValue) { "Rx2SharedPreferences does not allow null values." }
+        requireNotNull(defaultValue) { throw NullPointerException("value == null") }
         return CorePreference(sharedPreferences, key, defaultValue, StringAdapter).asRx2Preference(keyChanges)
     }
 
@@ -99,7 +98,7 @@ open class Rx2SharedPreferences @VisibleForTesting internal constructor(
     }
 
     public override fun getStringSet(key: String?, defaultValue: Set<String?>?): Rx2Preference<Set<String?>?> {
-        requireNotNull(defaultValue) { "Rx2SharedPreferences does not allow null values." }
+        requireNotNull(defaultValue) { throw NullPointerException("value == null") }
         return CorePreference(sharedPreferences,key, defaultValue, StringSetAdapter).asRx2Preference(keyChanges)
     }
 }
