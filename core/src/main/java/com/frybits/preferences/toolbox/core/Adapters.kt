@@ -18,7 +18,7 @@ object BooleanAdapter: Adapter<Boolean> {
     }
 }
 
-class ConverterAdapter<T>(private val converter: Preference.Converter<T>): Adapter<T> {
+class ConverterAdapter<T>(private val converter: CorePreference.Converter<T>): Adapter<T> {
     override fun get(key: String?, sharedPreference: SharedPreferences, defaultValue: T): T {
         val serialized = sharedPreference.getString(key, null) ?: return defaultValue
         return converter.deserialize(serialized)
@@ -86,12 +86,12 @@ object StringAdapter: Adapter<String?> {
     }
 }
 
-object StringSetAdapter: Adapter<Set<String>?> {
-    override fun get(key: String?, sharedPreference: SharedPreferences, defaultValue: Set<String>?): Set<String>? {
-        return sharedPreference.getStringSet(key, defaultValue)
+object StringSetAdapter: Adapter<Set<String?>?> {
+    override fun get(key: String?, sharedPreference: SharedPreferences, defaultValue: Set<String?>?): Set<String?>? {
+        return sharedPreference.getStringSet(key, defaultValue)?.toSet()
     }
 
-    override fun set(key: String?, value: Set<String>?, editor: SharedPreferences.Editor) {
+    override fun set(key: String?, value: Set<String?>?, editor: SharedPreferences.Editor) {
         editor.putStringSet(key, value)
     }
 }

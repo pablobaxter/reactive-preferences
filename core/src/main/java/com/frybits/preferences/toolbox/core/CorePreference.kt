@@ -6,11 +6,11 @@ import androidx.core.content.edit
 /**
  * Created by Pablo Baxter (Github: pablobaxter)
  */
-interface Preference<T> {
+interface CorePreference<T> {
 
     interface Converter<T> {
 
-        fun <T> deserialize(serialized: String): T
+        fun deserialize(serialized: String): T
 
         fun serialize(value: T): String
     }
@@ -21,9 +21,30 @@ interface Preference<T> {
 
     val key: String?
 
+    @Deprecated(message = "Use `key` instead.", replaceWith = ReplaceWith("key"), level = DeprecationLevel.ERROR)
+    fun key(): String? {
+        return key
+    }
+
     val defaultValue: T
 
+    @Deprecated(message = "Use `defaultValue` instead.", replaceWith = ReplaceWith("defaultValue"), level = DeprecationLevel.ERROR)
+    fun defaultValue(): T {
+        return defaultValue
+    }
+
     var value: T
+
+    @Deprecated(message = "Use `value` instead.", replaceWith = ReplaceWith("value"), level = DeprecationLevel.ERROR)
+    fun get(): T {
+        return value
+    }
+
+    // Unable to use ReplaceWith, due to bug with setters. https://youtrack.jetbrains.com/issue/KTIJ-12836/ReplaceWith-cannot-replace-function-invocation-with-property-assignment
+    @Deprecated(message = "Use `this.value = value` instead.", level = DeprecationLevel.ERROR)
+    fun set(value: T) {
+        this.value = value
+    }
 
     val isSet: Boolean
 
@@ -31,12 +52,12 @@ interface Preference<T> {
 }
 
 @Suppress("FunctionName")
-fun <T> Preference(
+fun <T> CorePreference(
     preferences: SharedPreferences,
     key: String?,
     defaultValue: T,
     adapter: Adapter<T>
-): Preference<T> = PreferenceImpl(
+): CorePreference<T> = PreferenceImpl(
     sharedPreferences = preferences,
     _key = key,
     _defaultValue = defaultValue,
@@ -48,7 +69,7 @@ private class PreferenceImpl<T>(
     private val _key: String?,
     private val _defaultValue: T,
     override val adapter: Adapter<T>
-): Preference<T> {
+): CorePreference<T> {
 
     override val key: String?
         get() = _key
