@@ -17,8 +17,8 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
-import static com.f2prateek.rx.preferences2.Roshambo.PAPER;
-import static com.f2prateek.rx.preferences2.Roshambo.ROCK;
+import static com.frybits.preferences.toolbox.rx2.Roshambo.PAPER;
+import static com.frybits.preferences.toolbox.rx2.Roshambo.ROCK;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,16 +32,16 @@ public class PreferenceTest {
     private final PointPreferenceConverter pointConverter = new PointPreferenceConverter();
 
     private SharedPreferences preferences;
-    private RxSharedPreferences rxPreferences;
+    private Rx2SharedPreferences rxPreferences;
 
     @Before public void setUp() {
         preferences = getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
         preferences.edit().clear().commit();
-        rxPreferences = RxSharedPreferences.create(preferences);
+        rxPreferences = Rx2SharedPreferences.create(preferences);
     }
 
     @Test public void key() {
-        Preference<String> preference = rxPreferences.getString("foo");
+        Rx2Preference<String> preference = rxPreferences.getString("foo");
         assertThat(preference.key()).isEqualTo("foo");
     }
 
@@ -179,7 +179,7 @@ public class PreferenceTest {
     }
 
     @Test public void isSet() {
-        Preference<String> preference = rxPreferences.getString("foo");
+        Rx2Preference<String> preference = rxPreferences.getString("foo");
 
         assertThat(preferences.contains("foo")).isFalse();
         assertThat(preference.isSet()).isFalse();
@@ -192,7 +192,7 @@ public class PreferenceTest {
     }
 
     @Test public void delete() {
-        Preference<String> preference = rxPreferences.getString("foo");
+        Rx2Preference<String> preference = rxPreferences.getString("foo");
 
         preferences.edit().putBoolean("foo", true).commit();
         assertThat(preferences.contains("foo")).isTrue();
@@ -202,8 +202,8 @@ public class PreferenceTest {
     }
 
     @Test public void converterMayNotReturnNull() {
-        Preference<Point> preference =
-                rxPreferences.getObject("foo", new Point(0, 0), new Preference.Converter<Point>() {
+        Rx2Preference<Point> preference =
+                rxPreferences.getObject("foo", new Point(0, 0), new Rx2Preference.Converter<Point>() {
                     @SuppressWarnings("ConstantConditions")
                     @NonNull @Override public Point deserialize(@NonNull String serialized) {
                         return null;
@@ -226,12 +226,12 @@ public class PreferenceTest {
             fail("Disallow Converter methods from returning null.");
         } catch (NullPointerException expected) {
             assertThat(expected).hasMessage(
-                    "Serialized string must not be null from value: Point{x=1, y=2}");
+                    "Serialized string must not be null from value: Point(x=1, y=2)");
         }
     }
 
     @Test public void stringSetDefaultIsUnmodifiable() {
-        Preference<Set<String>> preference = rxPreferences.getStringSet("foo");
+        Rx2Preference<Set<String>> preference = rxPreferences.getStringSet("foo");
         Set<String> stringSet = preference.get();
         try {
             stringSet.add("");
@@ -242,7 +242,7 @@ public class PreferenceTest {
     }
 
     @Test public void stringSetIsUnmodifiable() {
-        Preference<Set<String>> preference = rxPreferences.getStringSet("foo");
+        Rx2Preference<Set<String>> preference = rxPreferences.getStringSet("foo");
         preference.set(new LinkedHashSet<String>());
         Set<String> stringSet = preference.get();
         try {
@@ -254,7 +254,7 @@ public class PreferenceTest {
     }
 
     @Test public void asObservable() {
-        Preference<String> preference = rxPreferences.getString("foo", "bar");
+        Rx2Preference<String> preference = rxPreferences.getString("foo", "bar");
 
         RecordingObserver<String> observer = observerRule.create();
         preference.asObservable().subscribe(observer);
@@ -269,7 +269,7 @@ public class PreferenceTest {
 
     @Ignore("Robolectric needs to be updated to support API 30")
     @Test public void asObservableWhenBackingPrefsCleared() {
-        Preference<String> preference = rxPreferences.getString("foo", "bar");
+        Rx2Preference<String> preference = rxPreferences.getString("foo", "bar");
 
         RecordingObserver<String> observer = observerRule.create();
         preference.asObservable().subscribe(observer);
@@ -283,7 +283,7 @@ public class PreferenceTest {
     }
 
     @Test public void asConsumer() throws Exception {
-        Preference<String> preference = rxPreferences.getString("foo");
+        Rx2Preference<String> preference = rxPreferences.getString("foo");
         Consumer<? super String> consumer = preference.asConsumer();
 
         consumer.accept("bar");
