@@ -21,7 +21,7 @@ abstract class CoreSharedPreferences(protected val sharedPreferences: SharedPref
 
     protected abstract fun getStringSet(key: String?, defaultValue: Set<String?>?): CorePreference<Set<String?>?>
 
-    protected open fun clear() {
+    fun clear() {
         sharedPreferences.edit { clear() }
     }
 }
