@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import com.frybits.preferences.core.Adapter
 import com.frybits.preferences.core.Preference
 
-class Rx2ConverterAdapter<T>(private val converter: Preference.Converter<T>): Adapter<T> {
+internal class Rx2ConverterAdapter<T>(private val converter: Preference.Converter<T>): Adapter<T> {
     override fun get(key: String?, sharedPreference: SharedPreferences, defaultValue: T): T {
         val serialized = sharedPreference.getString(key, null) ?: return defaultValue
         return requireNotNull(converter.deserialize(serialized)) { throw NullPointerException("Deserialized value must not be null from string: $serialized") }

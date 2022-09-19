@@ -13,7 +13,7 @@ import com.frybits.preferences.core.StringAdapter
 import com.frybits.preferences.core.StringSetAdapter
 import io.reactivex.Observable
 
-open class Rx2SharedPreferences @VisibleForTesting internal constructor(
+class Rx2SharedPreferences @VisibleForTesting internal constructor(
     sharedPreferences: SharedPreferences,
     overrideKeyChanges: Observable<Optional<String?>>?
 ): CoreSharedPreferences(sharedPreferences) {
@@ -22,8 +22,8 @@ open class Rx2SharedPreferences @VisibleForTesting internal constructor(
 
         @JvmStatic
         @JvmOverloads
-        fun create(sharedPreferences: SharedPreferences, observable: Observable<String>? = null): Rx2SharedPreferences {
-            return Rx2SharedPreferences(sharedPreferences, observable?.map { it.asOptional() })
+        fun create(sharedPreferences: SharedPreferences, keyChanges: Observable<String>? = null): Rx2SharedPreferences {
+            return Rx2SharedPreferences(sharedPreferences, keyChanges?.map { it.asOptional() })
         }
     }
 
