@@ -1,8 +1,8 @@
-package com.frybits.preferences.toolbox.rx2
+package com.frybits.preferences.rx2
 
 import android.content.SharedPreferences
-import com.frybits.preferences.toolbox.core.Adapter
-import com.frybits.preferences.toolbox.core.Preference
+import com.frybits.preferences.core.Adapter
+import com.frybits.preferences.core.Preference
 
 class Rx2ConverterAdapter<T>(private val converter: Preference.Converter<T>): Adapter<T> {
     override fun get(key: String?, sharedPreference: SharedPreferences, defaultValue: T): T {

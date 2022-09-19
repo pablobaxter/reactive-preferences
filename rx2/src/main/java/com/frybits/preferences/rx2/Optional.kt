@@ -1,4 +1,4 @@
-package com.frybits.preferences.toolbox.rx2
+package com.frybits.preferences.rx2
 
 // Internal optional to handle null keys
 internal data class Optional<T>(val value: T?)

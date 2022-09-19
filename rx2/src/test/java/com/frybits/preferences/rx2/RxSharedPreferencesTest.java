@@ -1,4 +1,4 @@
-package com.frybits.preferences.toolbox.rx2;
+package com.frybits.preferences.rx2;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 

@@ -1,6 +1,6 @@
-package com.frybits.preferences.toolbox.rx2
+package com.frybits.preferences.rx2
 
-import com.frybits.preferences.toolbox.core.Preference
+import com.frybits.preferences.core.Preference
 
 class PointPreferenceConverter: Preference.Converter<Point> {
 

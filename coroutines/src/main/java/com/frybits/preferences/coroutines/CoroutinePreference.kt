@@ -1,6 +1,6 @@
-package com.frybits.preferences.toolbox.coroutines
+package com.frybits.preferences.coroutines
 
-import com.frybits.preferences.toolbox.core.Preference
+import com.frybits.preferences.core.Preference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector

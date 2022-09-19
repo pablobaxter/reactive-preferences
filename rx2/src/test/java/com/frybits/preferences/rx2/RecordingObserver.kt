@@ -1,4 +1,4 @@
-package com.frybits.preferences.toolbox.rx2
+package com.frybits.preferences.rx2
 
 import io.reactivex.Notification
 import io.reactivex.Observer

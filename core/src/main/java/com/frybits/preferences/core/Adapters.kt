@@ -1,4 +1,4 @@
-package com.frybits.preferences.toolbox.core
+package com.frybits.preferences.core
 
 import android.content.SharedPreferences
 

@@ -1,16 +1,16 @@
-package com.frybits.preferences.toolbox.rx2
+package com.frybits.preferences.rx2
 
 import android.content.SharedPreferences
 import androidx.annotation.VisibleForTesting
-import com.frybits.preferences.toolbox.core.BooleanAdapter
-import com.frybits.preferences.toolbox.core.CoreSharedPreferences
-import com.frybits.preferences.toolbox.core.EnumAdapter
-import com.frybits.preferences.toolbox.core.FloatAdapter
-import com.frybits.preferences.toolbox.core.IntegerAdapter
-import com.frybits.preferences.toolbox.core.LongAdapter
-import com.frybits.preferences.toolbox.core.Preference
-import com.frybits.preferences.toolbox.core.StringAdapter
-import com.frybits.preferences.toolbox.core.StringSetAdapter
+import com.frybits.preferences.core.BooleanAdapter
+import com.frybits.preferences.core.CoreSharedPreferences
+import com.frybits.preferences.core.EnumAdapter
+import com.frybits.preferences.core.FloatAdapter
+import com.frybits.preferences.core.IntegerAdapter
+import com.frybits.preferences.core.LongAdapter
+import com.frybits.preferences.core.Preference
+import com.frybits.preferences.core.StringAdapter
+import com.frybits.preferences.core.StringSetAdapter
 import io.reactivex.Observable
 
 open class Rx2SharedPreferences @VisibleForTesting internal constructor(

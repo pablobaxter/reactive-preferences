@@ -1,7 +1,8 @@
-package com.frybits.preferences.toolbox.rx2;
+package com.frybits.preferences.rx2;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
+
 import androidx.annotation.NonNull;
 import androidx.test.core.app.ApplicationProvider;
 import io.reactivex.functions.Consumer;
@@ -17,8 +18,8 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
-import static com.frybits.preferences.toolbox.rx2.Roshambo.PAPER;
-import static com.frybits.preferences.toolbox.rx2.Roshambo.ROCK;
+import static com.frybits.preferences.rx2.Roshambo.PAPER;
+import static com.frybits.preferences.rx2.Roshambo.ROCK;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThat;
