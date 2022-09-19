@@ -1,8 +1,8 @@
 package com.frybits.preferences.toolbox.rx2
 
-import com.frybits.preferences.toolbox.core.CorePreference
+import com.frybits.preferences.toolbox.core.Preference
 
-class PointPreferenceConverter: CorePreference.Converter<Point> {
+class PointPreferenceConverter: Preference.Converter<Point> {
 
     override fun deserialize(serialized: String): Point {
         val parts = serialized.split(",")

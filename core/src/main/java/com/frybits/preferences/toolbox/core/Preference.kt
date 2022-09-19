@@ -6,7 +6,7 @@ import androidx.core.content.edit
 /**
  * Created by Pablo Baxter (Github: pablobaxter)
  */
-interface CorePreference<T> {
+interface Preference<T> {
 
     interface Converter<T> {
 
@@ -31,12 +31,12 @@ interface CorePreference<T> {
 }
 
 @Suppress("FunctionName")
-fun <T> CorePreference(
+fun <T> Preference(
     preferences: SharedPreferences,
     key: String?,
     defaultValue: T,
     adapter: Adapter<T>
-): CorePreference<T> = PreferenceImpl(
+): Preference<T> = PreferenceImpl(
     sharedPreferences = preferences,
     _key = key,
     _defaultValue = defaultValue,
@@ -48,7 +48,7 @@ private class PreferenceImpl<T>(
     private val _key: String?,
     private val _defaultValue: T,
     override val adapter: Adapter<T>
-): CorePreference<T> {
+): Preference<T> {
 
     override val key: String?
         get() = _key

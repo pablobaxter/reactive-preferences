@@ -3,30 +3,31 @@ package com.frybits.preferences.toolbox.rx2
 import android.content.SharedPreferences
 import androidx.annotation.VisibleForTesting
 import com.frybits.preferences.toolbox.core.BooleanAdapter
-import com.frybits.preferences.toolbox.core.CorePreference
 import com.frybits.preferences.toolbox.core.CoreSharedPreferences
 import com.frybits.preferences.toolbox.core.EnumAdapter
 import com.frybits.preferences.toolbox.core.FloatAdapter
 import com.frybits.preferences.toolbox.core.IntegerAdapter
 import com.frybits.preferences.toolbox.core.LongAdapter
+import com.frybits.preferences.toolbox.core.Preference
 import com.frybits.preferences.toolbox.core.StringAdapter
 import com.frybits.preferences.toolbox.core.StringSetAdapter
 import io.reactivex.Observable
 
-@Suppress("OVERLOADS_WITHOUT_DEFAULT_ARGUMENTS")
 open class Rx2SharedPreferences @VisibleForTesting internal constructor(
-    sharedPreferences: SharedPreferences
+    sharedPreferences: SharedPreferences,
+    overrideKeyChanges: Observable<Optional<String?>>?
 ): CoreSharedPreferences(sharedPreferences) {
 
     companion object {
 
         @JvmStatic
-        fun create(sharedPreferences: SharedPreferences): Rx2SharedPreferences {
-            return Rx2SharedPreferences(sharedPreferences)
+        @JvmOverloads
+        fun create(sharedPreferences: SharedPreferences, observable: Observable<String>? = null): Rx2SharedPreferences {
+            return Rx2SharedPreferences(sharedPreferences, observable?.map { it.asOptional() })
         }
     }
 
-    private val keyChanges: Observable<Optional<String?>> = Observable.create<Optional<String?>> { emitter ->
+    private val keyChanges: Observable<Optional<String?>> = overrideKeyChanges ?: Observable.create<Optional<String?>> { emitter ->
         val listener = SharedPreferences.OnSharedPreferenceChangeListener { prefs, key ->
             check(prefs === sharedPreferences) { "Rx2SharedPreferences not listening to the right SharedPreferences" }
             emitter.onNext(key.asOptional())
@@ -44,7 +45,7 @@ open class Rx2SharedPreferences @VisibleForTesting internal constructor(
     }
 
     public override fun getBoolean(key: String?, defaultValue: Boolean): Rx2Preference<Boolean> {
-        return CorePreference(sharedPreferences, key, defaultValue, BooleanAdapter).asRx2Preference(keyChanges)
+        return Preference(sharedPreferences, key, defaultValue, BooleanAdapter).asRx2Preference(keyChanges)
     }
 
     inline fun <reified T: Enum<T>> getEnum(key: String?, defaultValue: T): Rx2Preference<T> {
@@ -52,7 +53,7 @@ open class Rx2SharedPreferences @VisibleForTesting internal constructor(
     }
 
     public override fun <T : Enum<T>> getEnum(key: String?, defaultValue: T, clazz: Class<T>): Rx2Preference<T> {
-        return CorePreference(sharedPreferences, key, defaultValue, EnumAdapter(clazz)).asRx2Preference(keyChanges)
+        return Preference(sharedPreferences, key, defaultValue, EnumAdapter(clazz)).asRx2Preference(keyChanges)
     }
 
     fun getFloat(key: String?): Rx2Preference<Float> {
@@ -60,7 +61,7 @@ open class Rx2SharedPreferences @VisibleForTesting internal constructor(
     }
 
     public override fun getFloat(key: String?, defaultValue: Float): Rx2Preference<Float> {
-        return CorePreference(sharedPreferences, key, defaultValue, FloatAdapter).asRx2Preference(keyChanges)
+        return Preference(sharedPreferences, key, defaultValue, FloatAdapter).asRx2Preference(keyChanges)
     }
 
     fun getInteger(key: String?): Rx2Preference<Int> {
@@ -68,7 +69,7 @@ open class Rx2SharedPreferences @VisibleForTesting internal constructor(
     }
 
     public override fun getInteger(key: String?, defaultValue: Int): Rx2Preference<Int> {
-        return CorePreference(sharedPreferences, key, defaultValue, IntegerAdapter).asRx2Preference(keyChanges)
+        return Preference(sharedPreferences, key, defaultValue, IntegerAdapter).asRx2Preference(keyChanges)
     }
 
     fun getLong(key: String?): Rx2Preference<Long> {
@@ -76,12 +77,12 @@ open class Rx2SharedPreferences @VisibleForTesting internal constructor(
     }
 
     public override fun getLong(key: String?, defaultValue: Long): Rx2Preference<Long> {
-        return CorePreference(sharedPreferences, key, defaultValue, LongAdapter).asRx2Preference(keyChanges)
+        return Preference(sharedPreferences, key, defaultValue, LongAdapter).asRx2Preference(keyChanges)
     }
 
-    public override fun <T> getObject(key: String?, defaultValue: T, converter: CorePreference.Converter<T>): Rx2Preference<T> {
+    public override fun <T> getObject(key: String?, defaultValue: T, converter: Preference.Converter<T>): Rx2Preference<T> {
         requireNotNull(defaultValue) { throw NullPointerException("defaultValue == null") }
-        return CorePreference(sharedPreferences, key, defaultValue, Rx2ConverterAdapter(converter)).asRx2Preference(keyChanges)
+        return Preference(sharedPreferences, key, defaultValue, Rx2ConverterAdapter(converter)).asRx2Preference(keyChanges)
     }
 
     fun getString(key: String?): Rx2Preference<String?> {
@@ -90,7 +91,7 @@ open class Rx2SharedPreferences @VisibleForTesting internal constructor(
 
     public override fun getString(key: String?, defaultValue: String?): Rx2Preference<String?> {
         requireNotNull(defaultValue) { throw NullPointerException("defaultValue == null") }
-        return CorePreference(sharedPreferences, key, defaultValue, StringAdapter).asRx2Preference(keyChanges)
+        return Preference(sharedPreferences, key, defaultValue, StringAdapter).asRx2Preference(keyChanges)
     }
 
     fun getStringSet(key: String?): Rx2Preference<Set<String?>?> {
@@ -99,6 +100,6 @@ open class Rx2SharedPreferences @VisibleForTesting internal constructor(
 
     public override fun getStringSet(key: String?, defaultValue: Set<String?>?): Rx2Preference<Set<String?>?> {
         requireNotNull(defaultValue) { throw NullPointerException("defaultValue == null") }
-        return CorePreference(sharedPreferences,key, defaultValue, StringSetAdapter).asRx2Preference(keyChanges)
+        return Preference(sharedPreferences,key, defaultValue, StringSetAdapter).asRx2Preference(keyChanges)
     }
 }
