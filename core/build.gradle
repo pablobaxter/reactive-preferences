@@ -4,11 +4,7 @@ android.namespace 'com.frybits.preferences.core'
 
 dependencies {
     // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "androidx.annotation:annotation:$annotation_version"
-
-    // Android
-    implementation "androidx.core:core-ktx:$corektx_version"
 
     // Test
     androidTestImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"

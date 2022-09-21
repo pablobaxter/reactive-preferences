@@ -2,12 +2,47 @@ package com.frybits.preferences.core
 
 import android.content.SharedPreferences
 
+/*
+ *  Copyright 2022 Pablo Baxter
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ * Created by Pablo Baxter (Github: pablobaxter)
+ * https://github.com/pablobaxter/rx-preferences
+ *
+ * These adapters are from https://github.com/f2prateek/rx-preferences/tree/master/rx-preferences/src/main/java/com/f2prateek/rx/preferences2,
+ * but partially modified to allow for `null` keys and converted to Kotlin
+ */
+
+/** Stores and retrieves instances of [T] in [SharedPreferences]. */
 interface Adapter<T> {
+
+    /**
+     * Retrieve the value for [key] from [sharedPreference], or [defaultValue]
+     * if the preference is unset, or was set to `null`.
+     */
     fun get(key: String?, sharedPreference: SharedPreferences, defaultValue: T): T
 
+    /**
+     * Store [value] for [key] in [editor].
+     *
+     * Note: Implementations **must not** call [SharedPreferences.Editor.commit] or [SharedPreferences.Editor.apply] on
+     * [editor]
+     */
     fun set(key: String?, value: T, editor: SharedPreferences.Editor)
 }
 
+/** Store and retrieves instances of [Boolean] in [SharedPreferences] */
 object BooleanAdapter: Adapter<Boolean> {
     override fun get(key: String?, sharedPreference: SharedPreferences, defaultValue: Boolean): Boolean {
         return sharedPreference.getBoolean(key, defaultValue)
@@ -18,6 +53,7 @@ object BooleanAdapter: Adapter<Boolean> {
     }
 }
 
+/** Store and retrieves instances of [T] converted into a [String] using [converter] in [SharedPreferences] */
 class ConverterAdapter<T>(private val converter: Preference.Converter<T>): Adapter<T> {
     override fun get(key: String?, sharedPreference: SharedPreferences, defaultValue: T): T {
         val serialized = sharedPreference.getString(key, null) ?: return defaultValue
@@ -30,6 +66,7 @@ class ConverterAdapter<T>(private val converter: Preference.Converter<T>): Adapt
     }
 }
 
+/** Stores and retrieves instances of enum [T] converted into a [String] in [SharedPreferences] */
 class EnumAdapter<T : Enum<T>>(private val clazz: Class<T>): Adapter<T> {
 
     override fun get(key: String?, sharedPreference: SharedPreferences, defaultValue: T): T {
@@ -46,6 +83,7 @@ class EnumAdapter<T : Enum<T>>(private val clazz: Class<T>): Adapter<T> {
     }
 }
 
+/** Store and retrieves instances of [Float] in [SharedPreferences] */
 object FloatAdapter: Adapter<Float> {
     override fun get(key: String?, sharedPreference: SharedPreferences, defaultValue: Float): Float {
         return sharedPreference.getFloat(key, defaultValue)
@@ -56,6 +94,7 @@ object FloatAdapter: Adapter<Float> {
     }
 }
 
+/** Store and retrieves instances of [Int] in [SharedPreferences] */
 object IntegerAdapter: Adapter<Int> {
     override fun get(key: String?, sharedPreference: SharedPreferences, defaultValue: Int): Int {
         return sharedPreference.getInt(key, defaultValue)
@@ -66,6 +105,7 @@ object IntegerAdapter: Adapter<Int> {
     }
 }
 
+/** Store and retrieves instances of [Long] in [SharedPreferences] */
 object LongAdapter: Adapter<Long> {
     override fun get(key: String?, sharedPreference: SharedPreferences, defaultValue: Long): Long {
         return sharedPreference.getLong(key, defaultValue)
@@ -76,6 +116,7 @@ object LongAdapter: Adapter<Long> {
     }
 }
 
+/** Store and retrieves instances of [String] in [SharedPreferences] */
 object StringAdapter: Adapter<String?> {
     override fun get(key: String?, sharedPreference: SharedPreferences, defaultValue: String?): String? {
         return sharedPreference.getString(key, defaultValue)
@@ -86,6 +127,7 @@ object StringAdapter: Adapter<String?> {
     }
 }
 
+/** Store and retrieves instances of a collection of [String] within a [Set] in [SharedPreferences] */
 object StringSetAdapter: Adapter<Set<String?>?> {
     override fun get(key: String?, sharedPreference: SharedPreferences, defaultValue: Set<String?>?): Set<String?>? {
         return sharedPreference.getStringSet(key, defaultValue)?.toSet()

@@ -1,4 +1,4 @@
-package com.frybits.preferences.rx2
+package com.frybits.preferences.coroutines
 
 /*
  *  Copyright 2022 Pablo Baxter
@@ -20,7 +20,10 @@ package com.frybits.preferences.rx2
  *
  */
 
-// Internal optional to handle null keys
-internal data class Optional<T>(val value: T?)
+/**
+ * Thrown when [android.content.SharedPreferences.Editor.commit] fails in [CoroutinePreference.asCollector]
+ */
+class PreferenceNotStoredException internal constructor(message: String): Exception(message)
 
-internal fun <T> T?.asOptional() = Optional(this)
+// Internal caller to hide constructor
+internal fun <T> PreferenceNotStoredException(value: T): PreferenceNotStoredException = PreferenceNotStoredException("$value was not stored")
