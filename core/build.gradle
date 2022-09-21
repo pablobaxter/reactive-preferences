@@ -8,12 +8,6 @@ dependencies {
     implementation "androidx.annotation:annotation:$annotation_version"
 
     // Test
-    androidTestImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
-    androidTestImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-    androidTestImplementation "androidx.test.ext:junit-ktx:$test_ext_version"
-    androidTestImplementation "androidx.test:rules:$test_rules_version"
-    androidTestImplementation "androidx.test:runner:$test_runner_version"
-    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutine_version"
-    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutine_version"
-    androidTestUtil "androidx.test:orchestrator:$test_orchestrator_version"
+    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 }

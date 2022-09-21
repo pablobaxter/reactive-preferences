@@ -16,10 +16,8 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.getByName
-import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.named
 import org.gradle.kotlin.dsl.withType
-import org.gradle.plugins.signing.SigningExtension
 import org.gradle.plugins.signing.SigningPlugin
 import org.jetbrains.dokka.Platform
 import org.jetbrains.dokka.gradle.DokkaPlugin
@@ -134,9 +132,9 @@ private fun Project.configurePublishing() {
         }
     }
 
-    configure<SigningExtension> {
-        sign(extensions.getByType<PublishingExtension>().publications)
-    }
+//    configure<SigningExtension> {
+//        sign(extensions.getByType<PublishingExtension>().publications)
+//    }
 }
 
 private fun MavenPublication.configurePom(
