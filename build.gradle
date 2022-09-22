@@ -16,6 +16,7 @@ ext {
     test_core_version = '1.4.0'
     assertj_version = '3.23.1'
     robolectric_version = '4.8.2'
+    kotlin_mockito_version = '4.0.0'
 
     // Android project
     minSdk_version = 16
