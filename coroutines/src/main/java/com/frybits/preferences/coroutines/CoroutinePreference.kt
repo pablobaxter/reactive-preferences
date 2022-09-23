@@ -63,7 +63,7 @@ interface CoroutinePreference<T>: Preference<T> {
     /**
      * Deletes the underlying value using [android.content.SharedPreferences.Editor.commit], suspending using [Dispatchers.IO].
      */
-    suspend fun deleteSync(): Boolean
+    suspend fun deleteAndCommit(): Boolean
 }
 
 // Wraps the underling preference and returns the CoroutinePreference variant.
@@ -89,7 +89,7 @@ private class CoroutinePreferenceImpl<T>(
         }
     }
 
-    override suspend fun deleteSync(): Boolean {
+    override suspend fun deleteAndCommit(): Boolean {
         return withContext(Dispatchers.IO) {
             return@withContext sharedPreferences.edit().remove(key).commit()
         }
