@@ -1,4 +1,6 @@
-package com.frybits.preferences.rx2
+package com.frybits.preferences.core
+
+import com.frybits.preferences.core.Preference
 
 /*
  *  Copyright 2022 Pablo Baxter
@@ -18,6 +20,22 @@ package com.frybits.preferences.rx2
  * Created by Pablo Baxter (Github: pablobaxter)
  * https://github.com/pablobaxter/rx-preferences
  *
- *  Re-implementation of https://github.com/f2prateek/rx-preferences/blob/master/rx-preferences/src/test/java/com/f2prateek/rx/preferences2/Point.java
+ * Re-implementation of https://github.com/f2prateek/rx-preferences/blob/master/rx-preferences/src/test/java/com/f2prateek/rx/preferences2/PointPreferenceConverter.java
  */
+
 data class Point(val x: Int, val y: Int)
+
+abstract class PointPreferenceConverter: Preference.Converter<Point> {
+
+    override fun deserialize(serialized: String): Point {
+        val parts = serialized.split(",")
+        if (parts.size != 2) {
+            throw IllegalStateException("Malformed point value: '$serialized'")
+        }
+        return Point(parts[0].toInt(), parts[1].toInt())
+    }
+
+    override fun serialize(value: Point): String {
+        return "${value.x},${value.y}"
+    }
+}

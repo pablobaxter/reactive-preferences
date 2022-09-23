@@ -2,6 +2,7 @@ package com.frybits.preferences.rx2;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
+import static com.frybits.preferences.rx2.PointPreferenceConverterKt.createPointPreferenceConverter;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 
@@ -61,7 +62,7 @@ public class RxSharedPreferencesTest {
 
     @Test public void objectNullDefaultValueThrows() {
         try {
-            rxPreferences.getObject("key", null, new PointPreferenceConverter());
+            rxPreferences.getObject("key", null, createPointPreferenceConverter());
             fail();
         } catch (NullPointerException e) {
             assertThat(e).hasMessage("defaultValue == null");

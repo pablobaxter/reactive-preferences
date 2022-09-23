@@ -1,9 +1,11 @@
-package com.frybits.preferences.coroutines
+package coroutines
 
 import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
 import com.frybits.preferences.core.IntegerAdapter
 import com.frybits.preferences.core.Preference
+import com.frybits.preferences.coroutines.PreferenceNotStoredException
+import com.frybits.preferences.coroutines.asCoroutinePreference
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.emptyFlow

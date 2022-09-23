@@ -23,7 +23,11 @@ import com.frybits.preferences.core.Preference
  * Re-implementation of https://github.com/f2prateek/rx-preferences/blob/master/rx-preferences/src/test/java/com/f2prateek/rx/preferences2/PointPreferenceConverter.java
  */
 
-class PointPreferenceConverter: Preference.Converter<Point> {
+data class Point(val x: Int, val y: Int)
+
+fun createPointPreferenceConverter(): PointPreferenceConverter = object : PointPreferenceConverter() {}
+
+abstract class PointPreferenceConverter: Preference.Converter<Point> {
 
     override fun deserialize(serialized: String): Point {
         val parts = serialized.split(",")
@@ -37,3 +41,4 @@ class PointPreferenceConverter: Preference.Converter<Point> {
         return "${value.x},${value.y}"
     }
 }
+

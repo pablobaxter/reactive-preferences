@@ -4,10 +4,12 @@ import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
 import org.mockito.kotlin.any
 import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.clearInvocations
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.isNull
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.spy
 import org.mockito.kotlin.verify
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -50,25 +52,23 @@ class AdaptersTest {
 
     @Test
     fun converterAdapterTest() {
+        val converter = spy<PointPreferenceConverter>()
+        val pointSerialized = converter.serialize(Point(1, 1))
+        clearInvocations(converter)
         val editor = mock<Editor>()
         val sharedPreferences = mock<SharedPreferences> {
-            on { getString(any(), anyOrNull()) } doReturn "testValue"
-        }
-
-        val converter = mock<Preference.Converter<Any?>> {
-            on { deserialize(any()) } doReturn this@AdaptersTest
-            on { serialize(any()) } doReturn "testSerializedObject"
+            on { getString(any(), anyOrNull()) } doReturn pointSerialized
         }
 
         val adapter = ConverterAdapter(converter)
 
-        assertEquals(this, adapter.get("test", sharedPreferences, null), "SharedPreferences not reached")
+        assertEquals(Point(1, 1), adapter.get("test", sharedPreferences, Point(0, 0)), "SharedPreferences not reached")
         verify(sharedPreferences).getString(eq("test"), isNull())
-        verify(converter).deserialize(eq("testValue"))
+        verify(converter).deserialize(eq(pointSerialized))
 
-        adapter.set("test", this, editor)
-        verify(converter).serialize(eq(this))
-        verify(editor).putString(eq("test"), eq("testSerializedObject"))
+        adapter.set("test", Point(1, 1), editor)
+        verify(converter).serialize(eq(Point(1, 1)))
+        verify(editor).putString(eq("test"), eq(pointSerialized))
     }
 
     @Test

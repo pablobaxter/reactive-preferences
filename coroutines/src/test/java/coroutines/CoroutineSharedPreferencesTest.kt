@@ -1,6 +1,7 @@
-package com.frybits.preferences.coroutines
+package coroutines
 
 import android.content.SharedPreferences
+import com.frybits.preferences.coroutines.CoroutineSharedPreferences
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.test.TestScope
@@ -9,7 +10,6 @@ import kotlinx.coroutines.test.runTest
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
-import org.mockito.kotlin.mock
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -68,12 +68,12 @@ class CoroutineSharedPreferencesTest {
     }
 
     @Test
-    fun defaultDefaultValues() = testScope.run {
+    fun testCoroutinePreferencesDefaults() = testScope.run {
         assertEquals(false, coroutineSharedPreferences.getBoolean("test").defaultValue)
         assertEquals(0F, coroutineSharedPreferences.getFloat("test").defaultValue)
         assertEquals(0, coroutineSharedPreferences.getInteger("test").defaultValue)
         assertEquals(0L, coroutineSharedPreferences.getLong("test").defaultValue)
-        assertNull(coroutineSharedPreferences.getString("test"))
-        assertNull(coroutineSharedPreferences.getStringSet("test"))
+        assertNull(coroutineSharedPreferences.getString("test").defaultValue)
+        assertNull(coroutineSharedPreferences.getStringSet("test").defaultValue)
     }
 }

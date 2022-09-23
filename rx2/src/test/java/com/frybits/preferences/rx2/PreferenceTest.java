@@ -18,6 +18,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
+import static com.frybits.preferences.rx2.PointPreferenceConverterKt.createPointPreferenceConverter;
 import static com.frybits.preferences.rx2.Roshambo.PAPER;
 import static com.frybits.preferences.rx2.Roshambo.ROCK;
 import static java.util.Arrays.asList;
@@ -53,7 +54,7 @@ import static org.assertj.core.api.Assertions.fail;
 public class PreferenceTest {
     @Rule public final RecordingObserver.Rule observerRule = new RecordingObserver.Rule();
 
-    private final PointPreferenceConverter pointConverter = new PointPreferenceConverter();
+    private final PointPreferenceConverter pointConverter = createPointPreferenceConverter();
 
     private SharedPreferences preferences;
     private Rx2SharedPreferences rxPreferences;
