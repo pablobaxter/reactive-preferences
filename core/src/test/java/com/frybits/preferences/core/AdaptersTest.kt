@@ -71,24 +71,20 @@ class AdaptersTest {
         verify(editor).putString(eq("test"), eq("testSerializedObject"))
     }
 
-    enum class Frybits {
-        ONE, TWO, THREE
-    }
-
     @Test
     fun enumAdapterTest() {
         val editor = mock<Editor>()
         val sharedPreferences = mock<SharedPreferences> {
-            on { getString(any(), anyOrNull()) } doReturn "ONE"
+            on { getString(any(), anyOrNull()) } doReturn Roshambo.ROCK.name
         }
 
-        val adapter = EnumAdapter(Frybits::class.java)
+        val adapter = EnumAdapter(Roshambo::class.java)
 
-        assertEquals(Frybits.ONE, adapter.get("test", sharedPreferences, Frybits.THREE), "SharedPreferences not reached")
+        assertEquals(Roshambo.ROCK, adapter.get("test", sharedPreferences, Roshambo.SCISSORS), "SharedPreferences not reached")
         verify(sharedPreferences).getString(eq("test"), isNull())
 
-        adapter.set("test", Frybits.TWO, editor)
-        verify(editor).putString(eq("test"), eq(Frybits.TWO.name))
+        adapter.set("test", Roshambo.PAPER, editor)
+        verify(editor).putString(eq("test"), eq(Roshambo.PAPER.name))
     }
 
     @Test
