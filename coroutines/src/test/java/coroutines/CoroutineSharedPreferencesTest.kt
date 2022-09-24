@@ -68,7 +68,7 @@ class CoroutineSharedPreferencesTest {
     }
 
     @Test
-    fun testCoroutinePreferencesDefaults() = testScope.run {
+    fun testCoroutinePreferencesDefaults() = testScope.runTest {
         assertEquals(false, coroutineSharedPreferences.getBoolean("test").defaultValue)
         assertEquals(0F, coroutineSharedPreferences.getFloat("test").defaultValue)
         assertEquals(0, coroutineSharedPreferences.getInteger("test").defaultValue)

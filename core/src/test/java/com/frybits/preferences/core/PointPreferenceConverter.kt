@@ -1,7 +1,5 @@
 package com.frybits.preferences.core
 
-import com.frybits.preferences.core.Preference
-
 /*
  *  Copyright 2022 Pablo Baxter
  *
