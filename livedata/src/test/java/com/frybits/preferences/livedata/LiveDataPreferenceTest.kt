@@ -5,10 +5,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.frybits.preferences.core.IntegerAdapter
 import com.frybits.preferences.core.Preference
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.toCollection
-import kotlinx.coroutines.launch
 import org.junit.Rule
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
@@ -93,5 +89,39 @@ class LiveDataPreferenceTest {
         keysChangedLiveData.value = null
         assertEquals(2, testResult.size)
         verify(sharedPrefs, times(2)).getInt(eq("test"), eq(-1))
+    }
+
+    @Test
+    fun testPreferenceLiveDataOnKeyEmit() {
+        val sharedPrefs = mock<SharedPreferences> {
+            on { getInt(any(), any()) } doReturn 2
+        }
+        val keysChangedLiveData = MutableLiveData<String?>()
+        val liveDataPref = Preference(sharedPrefs, "test", -1, IntegerAdapter).asLiveDataPreference(keysChangedLiveData)
+
+        val testResult = arrayListOf<Int>()
+        liveDataPref.asLiveData().observeForever { testResult.add(it) }
+
+        // Value is emitted for normal use case
+        keysChangedLiveData.value = "test"
+        assertEquals(2, testResult.size)
+        verify(sharedPrefs, times(2)).getInt(eq("test"), eq(-1))
+    }
+
+    @Test
+    fun testPreferenceObserver() {
+        val editor = mock<SharedPreferences.Editor>()
+        val sharedPrefs = mock<SharedPreferences> {
+            on { getInt(any(), any()) } doReturn 2
+            on { edit() } doReturn editor
+        }
+        val liveDataPref = Preference(sharedPrefs, "test", -1, IntegerAdapter).asLiveDataPreference(MutableLiveData())
+
+        val observer = liveDataPref.asObserver()
+
+        observer.onChanged(1)
+        verify(sharedPrefs).edit()
+        verify(editor).putInt(eq("test"), eq(1))
+        verify(editor).apply()
     }
 }

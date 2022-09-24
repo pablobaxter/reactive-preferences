@@ -11,7 +11,7 @@ dependencies {
     implementation "androidx.annotation:annotation:$annotation_version"
 
     // Livedata
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
 
     // Test
     testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
