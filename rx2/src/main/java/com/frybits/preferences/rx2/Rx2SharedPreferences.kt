@@ -135,7 +135,7 @@ class Rx2SharedPreferences @VisibleForTesting internal constructor(
 
     /** Creates a [T] preference for the [key] using the [converter], and with a default of [defaultValue] */
     @CheckResult
-    override fun <T> getObject(key: String?, defaultValue: T, converter: Preference.Converter<T>): Rx2Preference<T> {
+    public override fun <T> getObject(key: String?, defaultValue: T, converter: Preference.Converter<T>): Rx2Preference<T> {
         // Although the generic allows for nullable types, this function will throw an exception if a null value is used
         requireNotNull(defaultValue) { throw NullPointerException("defaultValue == null") }
         return Preference(sharedPreferences, key, defaultValue, Rx2ConverterAdapter(converter)).asRx2Preference(keyChanges)
@@ -149,7 +149,7 @@ class Rx2SharedPreferences @VisibleForTesting internal constructor(
 
     /** Creates a [String] preference for the [key] with a default of [defaultValue] */
     @CheckResult
-    override fun getString(key: String?, defaultValue: String?): Rx2Preference<String?> {
+    public override fun getString(key: String?, defaultValue: String?): Rx2Preference<String?> {
         // Although the generic allows for nullable types, this function will throw an exception if a null value is used
         requireNotNull(defaultValue) { throw NullPointerException("defaultValue == null") }
         return Preference(sharedPreferences, key, defaultValue, StringAdapter).asRx2Preference(keyChanges)

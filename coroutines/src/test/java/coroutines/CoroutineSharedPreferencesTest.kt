@@ -10,6 +10,11 @@ import kotlinx.coroutines.test.runTest
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
+import org.mockito.kotlin.any
+import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.doAnswer
+import org.mockito.kotlin.spy
+import org.mockito.kotlin.stub
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -75,5 +80,25 @@ class CoroutineSharedPreferencesTest {
         assertEquals(0L, coroutineSharedPreferences.getLong("test").defaultValue)
         assertNull(coroutineSharedPreferences.getString("test").defaultValue)
         assertNull(coroutineSharedPreferences.getStringSet("test").defaultValue)
+    }
+
+    @Test
+    fun testWithNoValueReturnsDefaultValue() = testScope.runTest {
+        sharedPreferences.stub {
+            on { getBoolean(any(), any()) } doAnswer { it.getArgument(1) }
+            on { getString(any(), anyOrNull()) } doAnswer { it.getArgument(1) }
+            on { getFloat(any(), any()) } doAnswer { it.getArgument(1) }
+            on { getInt(any(), any()) } doAnswer { it.getArgument(1) }
+            on { getLong(any(), any()) } doAnswer { it.getArgument(1) }
+            on { getStringSet(any(), anyOrNull()) } doAnswer { it.getArgument(1) }
+        }
+        assertEquals(true, coroutineSharedPreferences.getBoolean("test", true).value)
+        assertEquals(Roshambo.ROCK, coroutineSharedPreferences.getEnum("test", Roshambo.ROCK).value)
+        assertEquals(1F, coroutineSharedPreferences.getFloat("test", 1F).value)
+        assertEquals(1, coroutineSharedPreferences.getInteger("test", 1).value)
+        assertEquals(1L, coroutineSharedPreferences.getLong("test", 1L).value)
+        assertEquals("bar", coroutineSharedPreferences.getString("test", "bar").value)
+        assertEquals(setOf("foo"), coroutineSharedPreferences.getStringSet("test", setOf("foo")).value)
+        assertEquals(Point(1, 1), coroutineSharedPreferences.getObject("test", Point(1, 1), spy<PointPreferenceConverter>()).value)
     }
 }

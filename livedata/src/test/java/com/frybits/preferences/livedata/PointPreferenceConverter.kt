@@ -1,4 +1,4 @@
-package com.frybits.preferences.rx2
+package com.frybits.preferences.livedata
 
 import com.frybits.preferences.core.Preference
 

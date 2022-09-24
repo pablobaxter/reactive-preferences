@@ -7,6 +7,11 @@ import org.junit.Rule
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
+import org.mockito.kotlin.any
+import org.mockito.kotlin.anyOrNull
+import org.mockito.kotlin.doAnswer
+import org.mockito.kotlin.spy
+import org.mockito.kotlin.stub
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -71,5 +76,26 @@ class LiveDataSharedPreferencesTest {
         assertEquals(0L, liveDataSharedPreferences.getLong("test").defaultValue)
         assertNull(liveDataSharedPreferences.getString("test").defaultValue)
         assertNull(liveDataSharedPreferences.getStringSet("test").defaultValue)
+    }
+
+
+    @Test
+    fun testWithNoValueReturnsDefaultValue() {
+        sharedPreferences.stub {
+            on { getBoolean(any(), any()) } doAnswer { it.getArgument(1) }
+            on { getString(any(), anyOrNull()) } doAnswer { it.getArgument(1) }
+            on { getFloat(any(), any()) } doAnswer { it.getArgument(1) }
+            on { getInt(any(), any()) } doAnswer { it.getArgument(1) }
+            on { getLong(any(), any()) } doAnswer { it.getArgument(1) }
+            on { getStringSet(any(), anyOrNull()) } doAnswer { it.getArgument(1) }
+        }
+        assertEquals(true, liveDataSharedPreferences.getBoolean("test", true).value)
+        assertEquals(Roshambo.ROCK, liveDataSharedPreferences.getEnum("test", Roshambo.ROCK).value)
+        assertEquals(1F, liveDataSharedPreferences.getFloat("test", 1F).value)
+        assertEquals(1, liveDataSharedPreferences.getInteger("test", 1).value)
+        assertEquals(1L, liveDataSharedPreferences.getLong("test", 1L).value)
+        assertEquals("bar", liveDataSharedPreferences.getString("test", "bar").value)
+        assertEquals(setOf("foo"), liveDataSharedPreferences.getStringSet("test", setOf("foo")).value)
+        assertEquals(Point(1, 1), liveDataSharedPreferences.getObject("test", Point(1, 1), spy<PointPreferenceConverter>()).value)
     }
 }

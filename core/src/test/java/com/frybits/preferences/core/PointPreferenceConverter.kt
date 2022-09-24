@@ -23,17 +23,17 @@ package com.frybits.preferences.core
 
 data class Point(val x: Int, val y: Int)
 
-abstract class PointPreferenceConverter: Preference.Converter<Point> {
+abstract class PointPreferenceConverter: Preference.Converter<Point?> {
 
-    override fun deserialize(serialized: String): Point {
-        val parts = serialized.split(",")
+    override fun deserialize(serialized: String?): Point? {
+        val parts = serialized?.split(",") ?: return null
         if (parts.size != 2) {
             throw IllegalStateException("Malformed point value: '$serialized'")
         }
         return Point(parts[0].toInt(), parts[1].toInt())
     }
 
-    override fun serialize(value: Point): String {
-        return "${value.x},${value.y}"
+    override fun serialize(value: Point?): String? {
+        return value?.let { "${it.x},${it.y}" }
     }
 }

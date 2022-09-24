@@ -1,4 +1,4 @@
-package com.frybits.preferences.rx2
+package coroutines
 
 import com.frybits.preferences.core.Preference
 
@@ -39,3 +39,4 @@ abstract class PointPreferenceConverter: Preference.Converter<Point?> {
         return value?.let { "${it.x},${it.y}" }
     }
 }
+
