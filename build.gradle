@@ -11,6 +11,11 @@ ext {
     // Android
     corektx_version = '1.9.0'
     hilt_version = '2.43.2'
+    lifecycle_version = '2.5.1'
+    arch_version = '2.1.0'
+
+    // RxJava
+    rx2_java_version = '2.2.21'
 
     // Test
     test_core_version = '1.4.0'
