@@ -4,9 +4,9 @@ import android.content.SharedPreferences
 import androidx.annotation.CheckResult
 import androidx.annotation.VisibleForTesting
 import com.frybits.preferences.core.BooleanAdapter
-import com.frybits.preferences.core.CoreSharedPreferences
 import com.frybits.preferences.core.EnumAdapter
 import com.frybits.preferences.core.FloatAdapter
+import com.frybits.preferences.core.FrybitsSharedPreferences
 import com.frybits.preferences.core.IntegerAdapter
 import com.frybits.preferences.core.LongAdapter
 import com.frybits.preferences.core.Preference
@@ -40,7 +40,7 @@ import io.reactivex.Observable
 class Rx2SharedPreferences @VisibleForTesting internal constructor(
     sharedPreferences: SharedPreferences,
     overrideKeyChanges: Observable<Optional<String?>>?
-): CoreSharedPreferences(sharedPreferences) {
+): FrybitsSharedPreferences(sharedPreferences) {
 
     companion object {
 

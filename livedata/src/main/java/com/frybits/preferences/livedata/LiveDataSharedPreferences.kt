@@ -7,9 +7,9 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import com.frybits.preferences.core.BooleanAdapter
 import com.frybits.preferences.core.ConverterAdapter
-import com.frybits.preferences.core.CoreSharedPreferences
 import com.frybits.preferences.core.EnumAdapter
 import com.frybits.preferences.core.FloatAdapter
+import com.frybits.preferences.core.FrybitsSharedPreferences
 import com.frybits.preferences.core.IntegerAdapter
 import com.frybits.preferences.core.LongAdapter
 import com.frybits.preferences.core.Preference
@@ -39,7 +39,7 @@ import com.frybits.preferences.core.StringSetAdapter
 class LiveDataSharedPreferences @VisibleForTesting internal constructor(
    sharedPreferences: SharedPreferences,
    overrideKeyChanges: LiveData<String?>?
-): CoreSharedPreferences(sharedPreferences) {
+): FrybitsSharedPreferences(sharedPreferences) {
 
     companion object {
 

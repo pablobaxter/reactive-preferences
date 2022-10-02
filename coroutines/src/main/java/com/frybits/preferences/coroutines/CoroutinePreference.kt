@@ -58,11 +58,13 @@ interface CoroutinePreference<T>: Preference<T> {
      *
      * @return `true` if the data was stored, `false` if there was an error storing the data.
      */
+    @JvmSynthetic
     suspend fun commitValue(value: T): Boolean
 
     /**
      * Deletes the underlying value using [android.content.SharedPreferences.Editor.commit], suspending using [Dispatchers.IO].
      */
+    @JvmSynthetic
     suspend fun deleteAndCommit(): Boolean
 }
 

@@ -4,7 +4,7 @@ android.namespace 'com.frybits.preferences.coroutines'
 
 dependencies {
 
-    implementation project(':core')
+    api project(':core')
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

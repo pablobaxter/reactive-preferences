@@ -1,6 +1,7 @@
 package com.frybits.preferences.core
 
 import android.content.SharedPreferences
+import androidx.annotation.RestrictTo
 
 /*
  *  Copyright 2022 Pablo Baxter
@@ -22,7 +23,7 @@ import android.content.SharedPreferences
  *
  */
 
-/** A preference of type [T]. Instances are created from [CoreSharedPreferences] factories. */
+/** A preference of type [T]. Instances are created from [FrybitsSharedPreferences] factories. */
 interface Preference<T> {
 
     /** Converts instances of [T] to be stored and retrieved as Strings in [SharedPreferences]. */
@@ -62,8 +63,12 @@ interface Preference<T> {
 
 /**
  * Creates a [Preference]. This object does not provide any reactive streams, and is considered a base object for the reactive libraries.
+ *
+ * @suppress **This function should be internal, but used by library group**
  */
 @Suppress("FunctionName")
+@JvmSynthetic
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 fun <T> Preference(
     preferences: SharedPreferences,
     key: String?,

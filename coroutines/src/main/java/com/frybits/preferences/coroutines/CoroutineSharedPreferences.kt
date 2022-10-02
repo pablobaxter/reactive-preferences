@@ -5,9 +5,9 @@ import androidx.annotation.CheckResult
 import androidx.annotation.VisibleForTesting
 import com.frybits.preferences.core.BooleanAdapter
 import com.frybits.preferences.core.ConverterAdapter
-import com.frybits.preferences.core.CoreSharedPreferences
 import com.frybits.preferences.core.EnumAdapter
 import com.frybits.preferences.core.FloatAdapter
+import com.frybits.preferences.core.FrybitsSharedPreferences
 import com.frybits.preferences.core.IntegerAdapter
 import com.frybits.preferences.core.LongAdapter
 import com.frybits.preferences.core.Preference
@@ -51,7 +51,7 @@ class CoroutineSharedPreferences @VisibleForTesting internal constructor(
     sharedPreferences: SharedPreferences,
     overrideKeyChanges: Flow<String?>?,
     scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-): CoreSharedPreferences(sharedPreferences) {
+): FrybitsSharedPreferences(sharedPreferences) {
 
     companion object {
 
@@ -173,6 +173,7 @@ class CoroutineSharedPreferences @VisibleForTesting internal constructor(
     }
 
     /** Clears the underlying shared preferences with [SharedPreferences.Editor.commit] in [Dispatchers.IO] */
+    @JvmSynthetic
     suspend fun clearSync(): Boolean {
         return withContext(Dispatchers.IO) {
             return@withContext sharedPreferences.edit().clear().commit()

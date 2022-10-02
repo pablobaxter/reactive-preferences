@@ -28,7 +28,7 @@ import androidx.annotation.CheckResult
  *
  * @param sharedPreferences The preferences that back this factory
  */
-abstract class CoreSharedPreferences(protected val sharedPreferences: SharedPreferences) {
+abstract class FrybitsSharedPreferences(protected val sharedPreferences: SharedPreferences) {
 
     /** Creates a [Boolean] preference for the [key] with a default of [defaultValue] */
     @CheckResult

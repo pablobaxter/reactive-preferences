@@ -2,7 +2,6 @@ package com.frybits.preferences.core
 
 import android.content.SharedPreferences
 import android.content.SharedPreferences.Editor
-import org.hamcrest.MatcherAssert.assertThat
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.eq
