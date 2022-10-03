@@ -52,15 +52,23 @@ abstract class FrybitsSharedPreferences(protected val sharedPreferences: SharedP
 
     /** Creates a [T] preference for the [key] using the [converter], and with a default of [defaultValue] */
     @CheckResult
-    protected abstract fun <T> getObject(key: String?, defaultValue: T, converter: Preference.Converter<T>): Preference<T>
+    protected open fun <T> getObject(key: String?, defaultValue: T, converter: Preference.Converter<T>): Preference<T> {
+        throw IllegalStateException("Unused function")
+    }
+
+    /** Creates a [T] preference for the [key] using the [converter], and with a default of [defaultValue]. This function ensures objects in stream are not `null`. */
+    @CheckResult
+    protected open fun <T: Any> getObjectNonNull(key: String?, defaultValue: T, converter: Preference.Converter<T>): Preference<T> {
+        throw IllegalStateException("Unused function")
+    }
 
     /** Creates a [String] preference for the [key] with a default of [defaultValue] */
     @CheckResult
-    protected abstract fun getString(key: String?, defaultValue: String?): Preference<String?>
+    protected abstract fun getString(key: String?, defaultValue: String?): Preference<out String?>
 
     /** Creates a string [Set] preference for the [key] with a default of [defaultValue] */
     @CheckResult
-    protected abstract fun getStringSet(key: String?, defaultValue: Set<String?>?): Preference<Set<String?>?>
+    protected abstract fun getStringSet(key: String?, defaultValue: Set<String?>?): Preference<out Set<String?>?>
 
     /** Clears the underlying shared preferences */
     fun clear() {

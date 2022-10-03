@@ -1,4 +1,4 @@
-package com.frybits.preferences.rx2
+package com.frybits.preferences.rx3
 
 import android.content.SharedPreferences
 import androidx.annotation.CheckResult
@@ -10,7 +10,7 @@ import com.frybits.preferences.core.FrybitsSharedPreferences
 import com.frybits.preferences.core.IntegerAdapter
 import com.frybits.preferences.core.LongAdapter
 import com.frybits.preferences.core.Preference
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 
 /*
  *  Copyright 2022 Pablo Baxter
@@ -33,9 +33,9 @@ import io.reactivex.Observable
  */
 
 /**
- * Preference factory class to provide [Rx2Preference] objects
+ * Preference factory class to provide [Rx3Preference] objects
  */
-class Rx2SharedPreferences @VisibleForTesting internal constructor(
+class Rx3SharedPreferences @VisibleForTesting internal constructor(
     sharedPreferences: SharedPreferences,
     overrideKeyChanges: Observable<Optional<String?>>?
 ): FrybitsSharedPreferences(sharedPreferences) {
@@ -43,24 +43,24 @@ class Rx2SharedPreferences @VisibleForTesting internal constructor(
     companion object {
 
         /**
-         * Creates a [Rx2SharedPreferences] backed by the [SharedPreferences] passed in
+         * Creates a [Rx3SharedPreferences] backed by the [SharedPreferences] passed in
          *
          * @param sharedPreferences The preferences to back this factory
          * @param keyChanges Optional [Observable] that this factory will use to listen for key changes
          *
-         * @return A new instance of [Rx2SharedPreferences]
+         * @return A new instance of [Rx3SharedPreferences]
          */
         @JvmStatic
         @JvmOverloads
-        fun create(sharedPreferences: SharedPreferences, keyChanges: Observable<String>? = null): Rx2SharedPreferences {
-            return Rx2SharedPreferences(sharedPreferences, keyChanges?.map { it.asOptional() })
+        fun create(sharedPreferences: SharedPreferences, keyChanges: Observable<String>? = null): Rx3SharedPreferences {
+            return Rx3SharedPreferences(sharedPreferences, keyChanges?.map { it.asOptional() })
         }
     }
 
     // Either use the key changes flow passed in, or the default flow
     private val keyChanges: Observable<Optional<String?>> = overrideKeyChanges ?: Observable.create<Optional<String?>> { emitter ->
         val listener = SharedPreferences.OnSharedPreferenceChangeListener { prefs, key ->
-            check(prefs === sharedPreferences) { "Rx2SharedPreferences not listening to the right SharedPreferences" }
+            check(prefs === sharedPreferences) { "Rx3SharedPreferences not listening to the right SharedPreferences" }
             emitter.onNext(key.asOptional()) // Handle `null` values
         }
 
@@ -73,96 +73,96 @@ class Rx2SharedPreferences @VisibleForTesting internal constructor(
 
     /** Creates a [Boolean] preference for the [key] with a default of `false` */
     @CheckResult
-    fun getBoolean(key: String?): Rx2Preference<Boolean> {
+    fun getBoolean(key: String?): Rx3Preference<Boolean> {
         return getBoolean(key, false)
     }
 
     /** Creates a [Boolean] preference for the [key] with a default of [defaultValue] */
     @CheckResult
-    public override fun getBoolean(key: String?, defaultValue: Boolean): Rx2Preference<Boolean> {
-        return Preference(sharedPreferences, key, defaultValue, BooleanAdapter).asRx2Preference(keyChanges)
+    public override fun getBoolean(key: String?, defaultValue: Boolean): Rx3Preference<Boolean> {
+        return Preference(sharedPreferences, key, defaultValue, BooleanAdapter).asRx3Preference(keyChanges)
     }
 
     /** Creates a [T] preference for the [key] using the enum class type [T] with a default of [defaultValue] */
     @CheckResult
-    inline fun <reified T: Enum<T>> getEnum(key: String?, defaultValue: T): Rx2Preference<T> {
+    inline fun <reified T: Enum<T>> getEnum(key: String?, defaultValue: T): Rx3Preference<T> {
         return getEnum(key, defaultValue, T::class.java)
     }
 
     /** Creates a [T] preference for the [key] using the enum class [clazz] with a default of [defaultValue] */
     @CheckResult
-    public override fun <T : Enum<T>> getEnum(key: String?, defaultValue: T, clazz: Class<T>): Rx2Preference<T> {
-        return Preference(sharedPreferences, key, defaultValue, EnumAdapter(clazz)).asRx2Preference(keyChanges)
+    public override fun <T : Enum<T>> getEnum(key: String?, defaultValue: T, clazz: Class<T>): Rx3Preference<T> {
+        return Preference(sharedPreferences, key, defaultValue, EnumAdapter(clazz)).asRx3Preference(keyChanges)
     }
 
     /** Creates a [Float] preference for the [key] with a default of `0F` */
     @CheckResult
-    fun getFloat(key: String?): Rx2Preference<Float> {
+    fun getFloat(key: String?): Rx3Preference<Float> {
         return getFloat(key, 0F)
     }
 
     /** Creates a [Float] preference for the [key] with a default of [defaultValue] */
     @CheckResult
-    public override fun getFloat(key: String?, defaultValue: Float): Rx2Preference<Float> {
-        return Preference(sharedPreferences, key, defaultValue, FloatAdapter).asRx2Preference(keyChanges)
+    public override fun getFloat(key: String?, defaultValue: Float): Rx3Preference<Float> {
+        return Preference(sharedPreferences, key, defaultValue, FloatAdapter).asRx3Preference(keyChanges)
     }
 
     /** Creates a [Int] preference for the [key] with a default of `0` */
     @CheckResult
-    fun getInteger(key: String?): Rx2Preference<Int> {
+    fun getInteger(key: String?): Rx3Preference<Int> {
         return getInteger(key, 0)
     }
 
     /** Creates a [Int] preference for the [key] with a default of [defaultValue] */
     @CheckResult
-    public override fun getInteger(key: String?, defaultValue: Int): Rx2Preference<Int> {
-        return Preference(sharedPreferences, key, defaultValue, IntegerAdapter).asRx2Preference(keyChanges)
+    public override fun getInteger(key: String?, defaultValue: Int): Rx3Preference<Int> {
+        return Preference(sharedPreferences, key, defaultValue, IntegerAdapter).asRx3Preference(keyChanges)
     }
 
     /** Creates a [Long] preference for the [key] with a default of `0L` */
     @CheckResult
-    fun getLong(key: String?): Rx2Preference<Long> {
+    fun getLong(key: String?): Rx3Preference<Long> {
         return getLong(key, 0L)
     }
 
     /** Creates a [Long] preference for the [key] with a default of [defaultValue] */
     @CheckResult
-    public override fun getLong(key: String?, defaultValue: Long): Rx2Preference<Long> {
-        return Preference(sharedPreferences, key, defaultValue, LongAdapter).asRx2Preference(keyChanges)
+    public override fun getLong(key: String?, defaultValue: Long): Rx3Preference<Long> {
+        return Preference(sharedPreferences, key, defaultValue, LongAdapter).asRx3Preference(keyChanges)
     }
 
-    /** Creates a [T] preference for the [key] using the [converter], and with a default of [defaultValue]. This function ensures objects in stream are not `null`. */
+    /** Creates a [T] preference for the [key] using the [converter], and with a default of [defaultValue] */
     @CheckResult
-    public override fun <T: Any> getObjectNonNull(key: String?, defaultValue: T, converter: Preference.Converter<T>): Rx2Preference<T> {
+    public override fun <T: Any> getObjectNonNull(key: String?, defaultValue: T, converter: Preference.Converter<T>): Rx3Preference<T> {
         // Although the generic allows for nullable types, this function will throw an exception if a null value is used
-        return Preference(sharedPreferences, key, defaultValue, Rx2ConverterAdapter(converter)).asRx2Preference(keyChanges)
+        return Preference(sharedPreferences, key, defaultValue, Rx3ConverterAdapter(converter)).asRx3Preference(keyChanges)
     }
 
     /** Creates a [String] preference for the [key] with a default of an empty string */
     @CheckResult
-    fun getString(key: String?): Rx2Preference<String> {
-        return getString(key, "") // Rx2 doesn't allow null values
+    fun getString(key: String?): Rx3Preference<String> {
+        return getString(key, "") // Rx3 doesn't allow null values
     }
 
     /** Creates a [String] preference for the [key] with a default of [defaultValue] */
     @CheckResult
-    public override fun getString(key: String?, defaultValue: String?): Rx2Preference<String> {
+    public override fun getString(key: String?, defaultValue: String?): Rx3Preference<String> {
         // Although the generic allows for nullable types, this function will throw an exception if a null value is used
         requireNotNull(defaultValue) { throw NullPointerException("defaultValue == null") }
-        return Preference(sharedPreferences, key, defaultValue, NonNullStringAdapter).asRx2Preference(keyChanges)
+        return Preference(sharedPreferences, key, defaultValue, NonNullStringAdapter).asRx3Preference(keyChanges)
     }
 
     /** Creates a string [Set] preference for the [key] with a default of [emptySet] */
     @CheckResult
-    fun getStringSet(key: String?): Rx2Preference<Set<String?>> {
-        return getStringSet(key, emptySet()) // Rx2 doesn't allow null values
+    fun getStringSet(key: String?): Rx3Preference<Set<String?>> {
+        return getStringSet(key, emptySet()) // Rx3 doesn't allow null values
     }
 
     /** Creates a string [Set] preference for the [key] with a default of [defaultValue] */
     @CheckResult
-    public override fun getStringSet(key: String?, defaultValue: Set<String?>?): Rx2Preference<Set<String?>> {
+    public override fun getStringSet(key: String?, defaultValue: Set<String?>?): Rx3Preference<Set<String?>> {
         // Although the generic allows for nullable types, this function will throw an exception if a null value is used
         requireNotNull(defaultValue) { throw NullPointerException("defaultValue == null") }
-        return Preference(sharedPreferences,key, defaultValue, NonNullStringSetAdapter).asRx2Preference(keyChanges)
+        return Preference(sharedPreferences,key, defaultValue, NonNullStringSetAdapter).asRx3Preference(keyChanges)
     }
 }

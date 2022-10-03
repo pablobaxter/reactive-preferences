@@ -16,6 +16,7 @@ ext {
 
     // RxJava
     rx2_java_version = '2.2.21'
+    rx3_java_version = '3.1.5'
 
     // Test
     test_core_version = '1.4.0'

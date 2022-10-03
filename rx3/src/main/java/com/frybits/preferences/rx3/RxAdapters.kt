@@ -1,4 +1,4 @@
-package com.frybits.preferences.rx2
+package com.frybits.preferences.rx3
 
 import android.content.SharedPreferences
 import com.frybits.preferences.core.Adapter
@@ -25,7 +25,7 @@ import com.frybits.preferences.core.Preference
  */
 
 // Internal adapter for RxJava to ensure parity with original Legacy function to support transition from https://github.com/f2prateek/rx-preferences/
-internal class Rx2ConverterAdapter<T: Any>(private val converter: Preference.Converter<T>): Adapter<T> {
+internal class Rx3ConverterAdapter<T: Any>(private val converter: Preference.Converter<T>): Adapter<T> {
     override fun get(key: String?, sharedPreference: SharedPreferences, defaultValue: T): T {
         val serialized = sharedPreference.getString(key, null) ?: return defaultValue
         return requireNotNull(converter.deserialize(serialized)) { throw NullPointerException("Deserialized value must not be null from string: $serialized") }

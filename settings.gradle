@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "com.frybits.rx-preferences"
-include ':app', ':core', ':coroutines', ':rx2', ':livedata'
+include ':app', ':core', ':coroutines', ':rx2', ':rx3', ':livedata'

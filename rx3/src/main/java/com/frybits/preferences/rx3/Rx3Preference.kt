@@ -1,9 +1,9 @@
-package com.frybits.preferences.rx2
+package com.frybits.preferences.rx3
 
 import androidx.annotation.CheckResult
 import com.frybits.preferences.core.Preference
-import io.reactivex.Observable
-import io.reactivex.functions.Consumer
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.functions.Consumer
 
 /*
  *  Copyright 2022 Pablo Baxter
@@ -26,11 +26,11 @@ import io.reactivex.functions.Consumer
  */
 
 /**
- * A preference of type [T] that exposes RxJava2 [Observable] as the reactive framework. Instances are created from [Rx2SharedPreferences] factory.
+ * A preference of type [T] that exposes RxJava2 [Observable] as the reactive framework. Instances are created from [Rx3SharedPreferences] factory.
  *
  * This preference exposes RxJava2 specific functions.
  */
-interface Rx2Preference<T: Any>: Preference<T> {
+interface Rx3Preference<T: Any>: Preference<T> {
 
     /**
      * Legacy function to support transition from [f2prateek/rx-preference](https://github.com/f2prateek/rx-preferences/blob/master/rx-preferences/src/main/java/com/f2prateek/rx/preferences2/Preference.java).
@@ -85,14 +85,14 @@ interface Rx2Preference<T: Any>: Preference<T> {
     fun asConsumer(): Consumer<in T>
 }
 
-// Wraps the underling preference and returns the Rx2Preference variant.
+// Wraps the underling preference and returns the Rx3Preference variant.
 // Marked as internal, to prevent improper usage of this, as it is possible to continuously wrap the same object forever.
-internal fun <T: Any> Preference<T>.asRx2Preference(keysChanged: Observable<Optional<String?>>): Rx2Preference<T> = Rx2PreferenceImpl(this, keysChanged)
+internal fun <T: Any> Preference<T>.asRx3Preference(keysChanged: Observable<Optional<String?>>): Rx3Preference<T> = Rx3PreferenceImpl(this, keysChanged)
 
-private class Rx2PreferenceImpl<T: Any>(
+private class Rx3PreferenceImpl<T: Any>(
     private val preference: Preference<T>,
     private val keysChanged: Observable<Optional<String?>>
-): Rx2Preference<T>, Preference<T> by preference {
+): Rx3Preference<T>, Preference<T> by preference {
 
     @Deprecated("Use `this.value = value` instead.", level = DeprecationLevel.ERROR)
     override fun set(value: T) {
@@ -107,7 +107,7 @@ private class Rx2PreferenceImpl<T: Any>(
 
     override fun asObservable(): Observable<T> {
         return keysChanged.filter { it.value == key || it.value == null }
-            .startWith(Optional(""))
+            .startWithItem(Optional(""))
             .map { value }
     }
 

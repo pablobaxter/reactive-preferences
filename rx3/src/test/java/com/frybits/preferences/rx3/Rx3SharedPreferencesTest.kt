@@ -1,7 +1,7 @@
-package com.frybits.preferences.rx2
+package com.frybits.preferences.rx3
 
 import android.content.SharedPreferences
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.rxjava3.subjects.PublishSubject
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
@@ -36,10 +36,10 @@ import kotlin.test.assertFailsWith
  *
  */
 
-class Rx2SharedPreferencesTest {
+class Rx3SharedPreferencesTest {
 
     private lateinit var keysChangedPublisher: PublishSubject<Optional<String?>>
-    private lateinit var rx2SharedPreferences: Rx2SharedPreferences
+    private lateinit var rx3SharedPreferences: Rx3SharedPreferences
 
     @Mock
     private lateinit var sharedPreferences: SharedPreferences
@@ -49,7 +49,7 @@ class Rx2SharedPreferencesTest {
         MockitoAnnotations.openMocks(this)
 
         keysChangedPublisher = PublishSubject.create()
-        rx2SharedPreferences = Rx2SharedPreferences(sharedPreferences, keysChangedPublisher)
+        rx3SharedPreferences = Rx3SharedPreferences(sharedPreferences, keysChangedPublisher)
     }
 
     @AfterTest
@@ -59,18 +59,18 @@ class Rx2SharedPreferencesTest {
 
     @Test
     fun testKey() {
-        val rxPref = rx2SharedPreferences.getBoolean("test")
+        val rxPref = rx3SharedPreferences.getBoolean("test")
         assertEquals("test", rxPref.key)
     }
 
     @Test
     fun testCoroutinePreferencesDefaults() {
-        assertEquals(false, rx2SharedPreferences.getBoolean("test").defaultValue)
-        assertEquals(0F, rx2SharedPreferences.getFloat("test").defaultValue)
-        assertEquals(0, rx2SharedPreferences.getInteger("test").defaultValue)
-        assertEquals(0L, rx2SharedPreferences.getLong("test").defaultValue)
-        assertEquals("", rx2SharedPreferences.getString("test").defaultValue)
-        assertEquals(emptySet(), rx2SharedPreferences.getStringSet("test").defaultValue)
+        assertEquals(false, rx3SharedPreferences.getBoolean("test").defaultValue)
+        assertEquals(0F, rx3SharedPreferences.getFloat("test").defaultValue)
+        assertEquals(0, rx3SharedPreferences.getInteger("test").defaultValue)
+        assertEquals(0L, rx3SharedPreferences.getLong("test").defaultValue)
+        assertEquals("", rx3SharedPreferences.getString("test").defaultValue)
+        assertEquals(emptySet(), rx3SharedPreferences.getStringSet("test").defaultValue)
     }
 
     @Test
@@ -83,23 +83,23 @@ class Rx2SharedPreferencesTest {
             on { getLong(any(), any()) } doAnswer { it.getArgument(1) }
             on { getStringSet(any(), anyOrNull()) } doAnswer { it.getArgument(1) }
         }
-        assertEquals(true, rx2SharedPreferences.getBoolean("test", true).value)
-        assertEquals(Roshambo.ROCK, rx2SharedPreferences.getEnum("test", Roshambo.ROCK).value)
-        assertEquals(1F, rx2SharedPreferences.getFloat("test", 1F).value)
-        assertEquals(1, rx2SharedPreferences.getInteger("test", 1).value)
-        assertEquals(1L, rx2SharedPreferences.getLong("test", 1L).value)
-        assertEquals("bar", rx2SharedPreferences.getString("test", "bar").value)
-        assertEquals(setOf("foo"), rx2SharedPreferences.getStringSet("test", setOf("foo")).value)
-        assertEquals(Point(1, 1), rx2SharedPreferences.getObjectNonNull("test", Point(1, 1), spy<PointPreferenceConverter>()).value)
+        assertEquals(true, rx3SharedPreferences.getBoolean("test", true).value)
+        assertEquals(Roshambo.ROCK, rx3SharedPreferences.getEnum("test", Roshambo.ROCK).value)
+        assertEquals(1F, rx3SharedPreferences.getFloat("test", 1F).value)
+        assertEquals(1, rx3SharedPreferences.getInteger("test", 1).value)
+        assertEquals(1L, rx3SharedPreferences.getLong("test", 1L).value)
+        assertEquals("bar", rx3SharedPreferences.getString("test", "bar").value)
+        assertEquals(setOf("foo"), rx3SharedPreferences.getStringSet("test", setOf("foo")).value)
+        assertEquals(Point(1, 1), rx3SharedPreferences.getObjectNonNull("test", Point(1, 1), spy<PointPreferenceConverter>()).value)
     }
 
     @Test
     fun testStringNullDefaultValueThrows() {
-        assertFailsWith<NullPointerException>("defaultValue == null") { rx2SharedPreferences.getString("key", null) }
+        assertFailsWith<NullPointerException>("defaultValue == null") { rx3SharedPreferences.getString("key", null) }
     }
 
     @Test
     fun testStringSetNullDefaultValueThrows() {
-        assertFailsWith<NullPointerException>("defaultValue == null") { rx2SharedPreferences.getStringSet("key", null) }
+        assertFailsWith<NullPointerException>("defaultValue == null") { rx3SharedPreferences.getStringSet("key", null) }
     }
 }
