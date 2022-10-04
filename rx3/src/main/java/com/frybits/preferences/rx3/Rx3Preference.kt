@@ -21,7 +21,7 @@ import io.reactivex.rxjava3.functions.Consumer
  *  limitations under the License.
  *
  * Created by Pablo Baxter (Github: pablobaxter)
- * https://github.com/pablobaxter/rx-preferences
+ * https://github.com/pablobaxter/reactive-preferences
  *
  */
 

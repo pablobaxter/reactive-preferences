@@ -1,7 +1,6 @@
-package coroutines
+package com.frybits.preferences.coroutine
 
 import android.content.SharedPreferences
-import com.frybits.preferences.coroutines.CoroutineSharedPreferences
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.test.TestScope
@@ -37,7 +36,7 @@ import kotlin.test.assertNull
  *  limitations under the License.
  *
  * Created by Pablo Baxter (Github: pablobaxter)
- * https://github.com/pablobaxter/rx-preferences
+ * https://github.com/pablobaxter/reactive-preferences
  *
  */
 

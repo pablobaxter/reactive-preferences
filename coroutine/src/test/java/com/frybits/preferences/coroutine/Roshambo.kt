@@ -1,4 +1,4 @@
-package coroutines
+package com.frybits.preferences.coroutine
 
 /*
  *  Copyright 2022 Pablo Baxter
@@ -16,7 +16,7 @@ package coroutines
  *  limitations under the License.
  *
  * Created by Pablo Baxter (Github: pablobaxter)
- * https://github.com/pablobaxter/rx-preferences
+ * https://github.com/pablobaxter/reactive-preferences
  *
  * Re-implementation of https://github.com/f2prateek/rx-preferences/blob/master/rx-preferences/src/test/java/com/f2prateek/rx/preferences2/Roshambo.java
  */

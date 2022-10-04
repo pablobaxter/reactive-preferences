@@ -43,7 +43,7 @@ import java.io.File
  *  limitations under the License.
  *
  * Created by Pablo Baxter (Github: pablobaxter)
- * https://github.com/pablobaxter/rx-preferences
+ * https://github.com/pablobaxter/reactive-preferences
  */
 
 class FrybitsLibraryPlugin : Plugin<Project> {
@@ -146,7 +146,7 @@ private fun MavenPublication.configurePom(
     pom {
         name.set(projectName)
         description.set(projectDescription)
-        url.set("https://github.com/pablobaxter/rx-preferences")
+        url.set("https://github.com/pablobaxter/reactive-preferences")
         licenses {
             license {
                 name.set("The Apache License, Version 2.0")
@@ -161,9 +161,9 @@ private fun MavenPublication.configurePom(
             }
         }
         scm {
-            connection.set("scm:git:git://github.com/pablobaxter/rx-preferences.git")
-            developerConnection.set("git:ssh://github.com/pablobaxter/rx-preferences.git")
-            url.set("https://github.com/pablobaxter/rx-preferences")
+            connection.set("scm:git:git://github.com/pablobaxter/reactive-preferences.git")
+            developerConnection.set("git:ssh://github.com/pablobaxter/reactive-preferences.git")
+            url.set("https://github.com/pablobaxter/reactive-preferences")
         }
     }
 }

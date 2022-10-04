@@ -26,7 +26,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
  *  limitations under the License.
  *
  * Created by Pablo Baxter (Github: pablobaxter)
- * https://github.com/pablobaxter/rx-preferences
+ * https://github.com/pablobaxter/reactive-preferences
  */
 
 @Suppress("UnstableApiUsage")

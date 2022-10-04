@@ -1,6 +1,6 @@
 apply plugin: 'frybits-library'
 
-android.namespace 'com.frybits.preferences.coroutines'
+android.namespace 'com.frybits.preferences.coroutine'
 
 dependencies {
 

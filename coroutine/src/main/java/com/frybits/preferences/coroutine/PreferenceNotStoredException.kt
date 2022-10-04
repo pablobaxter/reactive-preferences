@@ -1,4 +1,4 @@
-package com.frybits.preferences.coroutines
+package com.frybits.preferences.coroutine
 
 /*
  *  Copyright 2022 Pablo Baxter
@@ -16,7 +16,7 @@ package com.frybits.preferences.coroutines
  *  limitations under the License.
  *
  * Created by Pablo Baxter (Github: pablobaxter)
- * https://github.com/pablobaxter/rx-preferences
+ * https://github.com/pablobaxter/reactive-preferences
  *
  */
 

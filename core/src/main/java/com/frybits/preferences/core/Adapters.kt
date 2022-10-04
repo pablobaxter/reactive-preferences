@@ -18,7 +18,7 @@ import android.content.SharedPreferences
  *  limitations under the License.
  *
  * Created by Pablo Baxter (Github: pablobaxter)
- * https://github.com/pablobaxter/rx-preferences
+ * https://github.com/pablobaxter/reactive-preferences
  *
  * These adapters are from https://github.com/f2prateek/rx-preferences/tree/master/rx-preferences/src/main/java/com/f2prateek/rx/preferences2,
  * but partially modified to allow for `null` keys and converted to Kotlin
