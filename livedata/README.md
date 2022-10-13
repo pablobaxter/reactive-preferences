@@ -8,7 +8,7 @@ implementation 'com.frybits.reactive-preferences:livedata:0.0.1'
 
 ### Usage
 
-Create an `LiveDataSharedPreferences` instance which wraps a `SharedPreferences`:
+Create a `LiveDataSharedPreferences` instance which wraps a `SharedPreferences`:
 
 ```kotlin
 val preferences = PreferenceManager.getDefaultSharedPreferences(context)

@@ -8,7 +8,7 @@ implementation 'com.frybits.reactive-preferences:coroutine:0.0.1'
 
 ### Usage
 
-Create an `CoroutineSharedPreferences` instance which wraps a `SharedPreferences`:
+Create a `CoroutineSharedPreferences` instance which wraps a `SharedPreferences`:
 
 ```kotlin
 val preferences = PreferenceManager.getDefaultSharedPreferences(context)
