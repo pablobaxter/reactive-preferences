@@ -9,11 +9,13 @@ In order to handle the varying number of reactive frameworks available, there ar
 ## Available Reactive SharedPreferences Libraries
 
 - [Coroutine/Flow](./coroutine/README.md)
+  - `implementation 'com.frybits.reactive-preferences:coroutine:0.0.1'`
 - [LiveData](./livedata/README.md)
+  - `implementation 'com.frybits.reactive-preferences:livedata:0.0.1'`
 - [Rx2](./rx2/README.md)
+  - `implementation 'com.frybits.reactive-preferences:rx2:0.0.1'`
 - [Rx3](./rx3/README.md)
-
-
+  - `implementation 'com.frybits.reactive-preferences:rx3:0.0.1'`
 
 License
 -------
