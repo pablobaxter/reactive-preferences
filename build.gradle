@@ -25,7 +25,6 @@ ext {
     // Android project
     minSdk_version = 16
     compileSdk_version = 32
-    targetSdk_version = 32
 }
 
 task clean(type: Delete) {
